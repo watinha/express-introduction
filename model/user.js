@@ -13,7 +13,8 @@ export default class User {
     if (age) query['age'] = { $gte: parseInt(age) };
 
     let users = await db.collection('user')
-                        .find(query, { name: 1, job: 1, age: 1})
+                        .find(query)
+                        .project({ _id: 0, name: 1, job: 1, age: 1})
                         .sort({ name: 1 })
                         .limit(5)
                         .toArray();
