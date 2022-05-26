@@ -4,7 +4,7 @@ import user from '../model/user.js';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const users = await user.find();
+  const users = await user.find({});
   res.json(users);
 });
 
