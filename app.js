@@ -14,10 +14,17 @@ app.use(compression({ threshold: 0 }));
 app.use(morgan('tiny'));
 app.use(cors());
 
+app.use((req, res, next) => {
+  console.log('my middleware called');
+  req.test = 'supimpa';
+  next();
+});
+
 app.use('/user', user_router)
 
 app.use((req, res) => {
   const { path } = req;
+  console.log(req.test);
   res.render('404', { path });
 });
 
