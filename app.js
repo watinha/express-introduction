@@ -10,4 +10,15 @@ app.use(express.static('./public'));
 
 app.use('/user', user_router)
 
+app.use((req, res) => {
+  const { path } = req;
+  res.render('404', { path });
+});
+
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(500);
+  res.json({ 'message': '---' });
+});
+
 app.listen(3000);
