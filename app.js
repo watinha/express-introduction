@@ -13,4 +13,16 @@ app.get('/user', async (req, res) => {
   res.json(users);
 });
 
+app.get('/user/:name', async (req, res) => {
+  const { name } = req.params,
+        users = await user.find({ name })
+  res.json(users);
+});
+
+app.get('/user/:name/:age', async (req, res) => {
+  const { name, age } = req.params,
+        users = await user.find({ name, age })
+  res.json(users);
+});
+
 app.listen(3000);
