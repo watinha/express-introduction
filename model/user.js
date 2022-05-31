@@ -13,7 +13,7 @@ export default class User {
     const conn = await client.connect(),
           db = conn.db();
 
-    db.insertOne(this);
+    await db.collection('user').insertOne(this);
     conn.close();
   }
 

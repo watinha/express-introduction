@@ -7,19 +7,49 @@
   <body>
     <h1>Home page</h1>
 
+    <fieldset>
+      <legend>New user</legend>
+      <input type="text" name="name" value="" />
+      <input type="text" name="job" value="" />
+      <input type="text" name="age" value="" />
+      <input type="submit" name="some_name" value="adicionar">
+    </fieldset>
+
     <ul></ul>
 
     <script type="text/javascript" charset="utf-8">
-      const container = document.querySelector('ul');
+      const submit = document.querySelector('input[type=submit]'),
+            name = document.querySelector('input[name=name]'),
+            job = document.querySelector('input[name=job]'),
+            age = document.querySelector('input[name=age]'),
+            container = document.querySelector('ul');
 
-      (async () => {
-        const users = await fetch('./user').then((resp) => resp.json());
-        users.forEach((user) => {
-          const li = document.createElement('li');
-          li.innerHTML = `${user.name} - ${user.age} - ${user.job}`;
-          container.appendChild(li);
+      submit.addEventListener('click', async () => {
+        const params = {
+          name: name.value,
+          job: job.value,
+          age: age.value
+        };
+        await fetch('./user', {
+          method: 'POST',
+          headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(params).toString()
         });
-      })();
+      });
+
+      setInterval(() => {
+        (async () => {
+          const users = await fetch('./user').then((resp) => resp.json());
+          container.innerHTML = '';
+          users.forEach((user) => {
+            const li = document.createElement('li');
+            li.innerHTML = `${user.name} - ${user.age} - ${user.job}`;
+            container.appendChild(li);
+          });
+        })();
+      }, 3000);
+
+
     </script>
   </body>
 </html>

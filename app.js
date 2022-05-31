@@ -10,6 +10,7 @@ const app = express();
 app.set('view engine', 'hbs');
 app.set('views', './view');
 app.use(express.static('./public'));
+app.use(express.urlencoded({extended: false}));
 app.use(compression({ threshold: 0 }));
 app.use(morgan('tiny'));
 app.use(cors());
