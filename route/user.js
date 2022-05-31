@@ -4,20 +4,16 @@ import user from '../model/user.js';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const users = await user.find({});
+  const { name, age } = req.query,
+        users = await user.find({ name, age });
   res.json(users);
 });
 
-router.get('/:name', async (req, res) => {
-  const { name } = req.params,
-        users = await user.find({ name })
-  res.json(users);
-});
-
-router.get('/:name/:age', async (req, res) => {
-  const { name, age } = req.params,
-        users = await user.find({ name, age })
-  res.json(users);
+router.post('/', async (req, res) => {
+  const { name, age } = req.body,
+        new_user = new User({ name, age });
+  await new_user.save();
+  res.json({ message: 'OK' })
 });
 
 export default router;

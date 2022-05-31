@@ -2,6 +2,21 @@ import client from '../config/db.js';
 
 export default class User {
 
+  constructor ({ _id, name, age }) {
+    this.name = name;
+    this.age = age;
+    if (this._id)
+      this._id = _id;
+  }
+
+  async save () {
+    const conn = await client.connect(),
+          db = conn.db();
+
+    db.insertOne(this);
+    conn.close();
+  }
+
   static async find ({ name, age }) {
     const conn = await client.connect(),
           db = conn.db(),
@@ -12,12 +27,11 @@ export default class User {
 
     let users = await db.collection('user')
                         .find(query)
-                        .project({ _id: 0, name: 1, job: 1, age: 1})
                         .sort({ name: 1 })
                         .limit(5)
                         .toArray();
     conn.close();
-    return users;
+    return users.map((user) => new User(user));
   }
 
 }
