@@ -1,11 +1,9 @@
-import { MongoClient as client } from 'mongodb';
-
-import DB from '../config/db.js';
+import client from '../config/db.js';
 
 export default class User {
 
   static async find ({ name, age }) {
-    const conn = await client.connect(DB.uri),
+    const conn = await client.connect(),
           db = conn.db(),
           query = {};
 
