@@ -32,8 +32,8 @@
         };
         await fetch('./user', {
           method: 'POST',
-          headers: { 'Content-type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(params).toString()
+          headers: { 'Content-type': 'application/json' },
+          body: JSON.stringify(params)
         });
       });
 
